@@ -19,14 +19,16 @@ namespace BookingDataAccess
 
         public virtual ICollection<ShowTimePlace> ShowTimePlaces { get; set; }
 
-        [ForeignKey("Cinema")]
-        public int CinemaId { get; set; }
+        [ForeignKey("CinemaHall")]
+        public int CinemaHallId { get; set; }
 
-        public Cinema Cinema { get; set; }
+        public CinemaHall CinemaHall { get; set; }
 
         [ForeignKey("Movie")]
         public int MovieId { get; set; }
 
         public Movie Movie { get; set; }
+
+        public TechnologyEnum Technology { get; set; }
     }
 }

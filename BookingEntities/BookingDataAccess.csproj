@@ -50,7 +50,12 @@
     <Compile Include="EF\EFGenericRepository.cs" />
     <Compile Include="EF\IGenericRepository.cs" />
     <Compile Include="EF\BookingBreakerContext.cs" />
-    <Compile Include="Cinema.cs" />
+    <Compile Include="Entities\CinemaHall.cs" />
+    <Compile Include="Entities\Cinema.cs" />
+    <Compile Include="Enums\HorizontalHallLayoutEnum.cs" />
+    <Compile Include="Enums\VerticalHallLayoutEnum.cs" />
+    <Compile Include="Enums\PlacesRepresentationTechEnum.cs" />
+    <Compile Include="Enums\TechnologyEnum.cs" />
     <Compile Include="Migrations\201705010849028_InitialCreate.cs" />
     <Compile Include="Migrations\201705010849028_InitialCreate.Designer.cs">
       <DependentUpon>201705010849028_InitialCreate.cs</DependentUpon>
@@ -59,13 +64,21 @@
     <Compile Include="Migrations\201705010900161_AddLocalMovieLink.Designer.cs">
       <DependentUpon>201705010900161_AddLocalMovieLink.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705022154453_Cinema-hall.cs" />
+    <Compile Include="Migrations\201705022154453_Cinema-hall.Designer.cs">
+      <DependentUpon>201705022154453_Cinema-hall.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705022227247_EnumChange.cs" />
+    <Compile Include="Migrations\201705022227247_EnumChange.Designer.cs">
+      <DependentUpon>201705022227247_EnumChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="PlaceAccessEnum.cs" />
-    <Compile Include="LocalMovieIdentity.cs" />
-    <Compile Include="ShowDuration.cs" />
-    <Compile Include="ShowTimePlace.cs" />
-    <Compile Include="ShowTime.cs" />
-    <Compile Include="Movie.cs" />
+    <Compile Include="Enums\PlaceAccessEnum.cs" />
+    <Compile Include="Entities\LocalMovieIdentity.cs" />
+    <Compile Include="Entities\ShowDuration.cs" />
+    <Compile Include="Entities\ShowTimePlace.cs" />
+    <Compile Include="Entities\ShowTime.cs" />
+    <Compile Include="Entities\Movie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +92,15 @@
     <EmbeddedResource Include="Migrations\201705010900161_AddLocalMovieLink.resx">
       <DependentUpon>201705010900161_AddLocalMovieLink.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705022154453_Cinema-hall.resx">
+      <DependentUpon>201705022154453_Cinema-hall.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705022227247_EnumChange.resx">
+      <DependentUpon>201705022227247_EnumChange.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contants\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

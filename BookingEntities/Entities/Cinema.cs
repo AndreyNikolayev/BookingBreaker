@@ -14,7 +14,7 @@ namespace BookingDataAccess
 
         public string Title { get; set; }
 
-        public virtual ICollection<ShowTime> Showtimes { get; set; }
+        public virtual ICollection<CinemaHall> CinemaHalls { get; set; }
 
         public virtual ICollection<ShowDuration> Showdurations { get; set; }
 

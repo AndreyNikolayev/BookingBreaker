@@ -10,6 +10,7 @@ namespace BookingDataAccess
     {
         Open,
         Taken,
-        Reserved
+        Reserved,
+        Disabled
     }
 }

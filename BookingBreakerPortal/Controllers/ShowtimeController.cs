@@ -16,7 +16,7 @@ namespace BookingBreakerPortal.Controllers
         // GET: Showtime
         public ActionResult Index()
         {
-            var model = db.ShowTimes.Include(p => p.Movie).Include(p => p.Cinema).OrderBy(p => p.StartTime).ToList();
+            var model = db.ShowTimes.Include(p => p.Movie).Include(p => p.CinemaHall).Include(p => p.CinemaHall.Cinema).OrderBy(p => p.StartTime).ToList();
             return View(model);
         }
 

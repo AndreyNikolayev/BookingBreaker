@@ -20,7 +20,7 @@ namespace BookingBreakerBusinessLogic
 
         private static HttpClient _client = new HttpClient();
 
-        public static List<ShowTimePlace> ParseShowTimePlaces(string htmlPage)
+        public static List<ShowTimePlace> ParseShowTimePlaces(string htmlPage, CinemaHall cinemaHall)
         {
             var result = new List<ShowTimePlace>();
 
@@ -46,20 +46,69 @@ namespace BookingBreakerBusinessLogic
                     rowsPlaceCss[top].Add(left);
                 }
 
+                var placeAccess = placeHtml.ClassList.Contains("hs-image-0000000007") ? PlaceAccessEnum.Disabled : PlaceAccessEnum.Open;
+
+
+
                 var showtimePlace = new ShowTimePlace
                 {
                     Row = top,
-                    PlaceAccess = placeHtml.ClassList.Contains("hs-image-0000000005") ? PlaceAccessEnum.Taken : PlaceAccessEnum.Open,
+                    PlaceAccess = placeHtml.ClassList.Contains("hs-image-0000000005") ? PlaceAccessEnum.Taken : placeAccess,
                     PlaceNumber = left
                 };
                 result.Add(showtimePlace);
             }
             var rowOrder = rowsPlaceCss.Keys.ToList();
-            foreach(var places in rowsPlaceCss.Values)
+
+            rowOrder.Sort();
+
+            foreach (var places in rowsPlaceCss.Values)
             {
                 places.Sort();
             }
-            rowOrder.Sort();
+
+            if(cinemaHall.VerticalHallLayout == VerticalHallLayoutEnum.None)
+            {
+                cinemaHall.VerticalHallLayout = VerticalHallLayoutEnum.FirstToLast;
+            }
+            if(cinemaHall.HorizontalHallLayout == HorizontalHallLayoutEnum.None)
+            {
+                var checkingPlaceFromResult = result.FirstOrDefault(p => p.PlaceAccess == PlaceAccessEnum.Open &&
+                (rowsPlaceCss[p.Row].Count %2 ==0 ||
+                p.PlaceNumber != rowsPlaceCss[p.Row].ElementAt(rowsPlaceCss[p.Row].Count - 1 / 2)));
+
+                if (checkingPlaceFromResult == null)
+                {
+                    cinemaHall.HorizontalHallLayout = HorizontalHallLayoutEnum.LeftToRight;
+                }
+                else
+                {
+                    var checkPlaceFoundNumber = rowsPlaceCss[checkingPlaceFromResult.Row].IndexOf(checkingPlaceFromResult.PlaceNumber) + 1;
+
+                    var checkingPlaceFromHtml = placesHtml.FirstOrDefault(p => Int32.Parse(p.OuterHtml.Substring(p.OuterHtml.IndexOf("px;top:") + 7, p.OuterHtml.IndexOf("px;width:") - p.OuterHtml.IndexOf("px;top:") - 7)) == checkingPlaceFromResult.Row &&
+                    Int32.Parse(p.OuterHtml.Substring(p.OuterHtml.IndexOf("\"left:") + 6, p.OuterHtml.IndexOf("px;top:") - p.OuterHtml.IndexOf("\"left:") - 6)) == checkingPlaceFromResult.PlaceNumber);
+
+                    _logger.Info(checkingPlaceFromHtml.GetAttribute("exp-data-col"));
+                    var checkingPlaceFromHtmlPlaceNumber = Int32.Parse(checkingPlaceFromHtml.GetAttribute("exp-data-col"));
+
+
+                    cinemaHall.HorizontalHallLayout = checkingPlaceFromHtmlPlaceNumber == checkPlaceFoundNumber ? HorizontalHallLayoutEnum.LeftToRight : HorizontalHallLayoutEnum.RightToLeft;
+                }
+            }
+
+            if(cinemaHall.VerticalHallLayout == VerticalHallLayoutEnum.LastToFirst)
+            {
+                rowOrder.Reverse();
+            }
+
+            if(cinemaHall.HorizontalHallLayout ==HorizontalHallLayoutEnum.RightToLeft)
+            {
+                foreach (var places in rowsPlaceCss.Values)
+                {
+                    places.Reverse();
+                }
+            }
+
 
             foreach(var showtimePlace in result)
             {
@@ -86,10 +135,10 @@ namespace BookingBreakerBusinessLogic
 
                 using (BookingBreakerContext db = new BookingBreakerContext())
                 {
-                    var cinema = db.Cinemas.FirstOrDefault(p => p.Title == "Planeta Kino");
+                    var cinema = db.Cinemas.FirstOrDefault(p => p.Title == "Планета Кино");
                     if (cinema == null)
                     {
-                        cinema = new Cinema { Title = "Planeta Kino" };
+                        cinema = new Cinema { Title = "Планета Кино" };
                         db.Cinemas.Add(cinema);
                     }
 
@@ -98,8 +147,10 @@ namespace BookingBreakerBusinessLogic
                         var filmTitle = film.Descendants("title").First().Value;
                         var startDate = film.Descendants("dt-start").First().Value;
                         var endDate = film.Descendants("dt-end").First().Value;
+
                         var cinemaMovieId = film.Attribute("id").Value;
                         var cinemaMovieLink = film.Attribute("url").Value;
+
 
 
                         var movie = db.Movies.FirstOrDefault(p => p.Title == filmTitle);
@@ -134,7 +185,9 @@ namespace BookingBreakerBusinessLogic
                         localMovieIdentity.Cinema = cinema;
                         localMovieIdentity.Movie = movie;
                     }
-                    db.ShowTimes.RemoveRange(db.ShowTimes.Where(p => p.Cinema.Title == cinema.Title));
+                    db.SaveChanges();
+
+                    db.ShowTimes.RemoveRange(db.ShowTimes.Where(p => p.CinemaHall.Cinema.Title == cinema.Title));
 
                     foreach (var show in showtimes)
                     {
@@ -148,20 +201,43 @@ namespace BookingBreakerBusinessLogic
                         {
                             continue;
                         }
+                        var hallIdInt = Int32.Parse(hallId);
+                        var cinemaHall = db.CinemaHalls.FirstOrDefault(p => p.LocalCinemaHallId == hallIdInt);
+                        if(cinemaHall == null)
+                        {
+                            cinemaHall = new CinemaHall();
+                            cinemaHall.LocalCinemaHallId = Int32.Parse(hallId);
+                            cinemaHall.PlacesRepresentationTech = PlacesRepresentationTechEnum.SeatCharts;
+                            cinemaHall.Cinema = cinema;
+                            db.CinemaHalls.Add(cinemaHall);
+                        }
+
 
                         var showtimeId = url.Substring(url.IndexOf("show_id=") + 8, url.IndexOf(@"&theatre_id") - url.IndexOf("show_id") - 8);
 
                         var showresponse = await _client.GetAsync(@"https://cabinet.planetakino.ua" + "/Hall/HallScheme?" + "showtimeId=" + showtimeId + "&theaterId=imax-kiev&hallId=" + hallId + "&attrTechnology=" + technology + "&transactionId=");
                         var placesContent = await showresponse.Content.ReadAsStringAsync();
-                        places = ParseShowTimePlaces(placesContent);
+                        places = ParseShowTimePlaces(placesContent, cinemaHall);
+
+                        var showTimeTech = TechnologyEnum.TwoD;
+
+                        if (technology.ToLower().Contains("3d"))
+                        {
+                            showTimeTech = TechnologyEnum.ThreeD;
+                        }
+                        if(technology.ToLower().Contains("imax"))
+                        {
+                            showTimeTech = TechnologyEnum.IMAX;
+                        }
 
                         var showtimeEntity = new ShowTime
                         {
-                            Cinema = cinema,
+                            CinemaHall = cinemaHall,
                             Movie = db.LocalMovieIdentities.FirstOrDefault(p => p.LocalIdentifier == movieId).Movie,
                             StartTime = startTime,
                             Link = url,
-                            ShowTimePlaces = places
+                            ShowTimePlaces = places,
+                            Technology = showTimeTech
                         };
                         db.ShowTimes.Add(showtimeEntity);
                     };
@@ -171,8 +247,8 @@ namespace BookingBreakerBusinessLogic
             }
             catch(Exception ex)
             {
-                _logger.Warn("Exception: " + ex.Message);
-                _logger.Warn("Exception Trace: " + ex.StackTrace);
+                //_logger.Warn("Exception: " + ex.Message);
+               // _logger.Warn("Exception Trace: " + ex.StackTrace);
             }
             _logger.Info("End Parcing");
 

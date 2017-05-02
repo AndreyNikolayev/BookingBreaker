@@ -32,5 +32,7 @@ namespace BookingDataAccess
 
         public DbSet<ShowTimePlace> ShowTimePlaces { get; set; }
 
+        public DbSet<CinemaHall> CinemaHalls { get; set; }
+
     }
 }

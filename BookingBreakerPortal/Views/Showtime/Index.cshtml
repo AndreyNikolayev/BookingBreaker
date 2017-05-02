@@ -45,6 +45,9 @@
                                 else if (currentArrayMember.PlaceAccess == 1) {
                                     result += 't';
                                 }
+                                else if (currentArrayMember.PlaceAccess == 3) {
+                                    result += 'd';
+                                }
                                 else {
                                     result += 'b';
                                 }
@@ -62,8 +65,10 @@
                             }
 
                             placesObj[index].sort(function (a, b) {
-                                +a.PlaceNumber - +b.PlaceNumber;
-                            })
+                                return a.PlaceNumber - b.PlaceNumber;
+                            });
+
+                            debugger;
 
                             seatMap[index - 1] = getRowMapRepresentation(placesObj[index]);
 
@@ -103,7 +108,11 @@
                                 b: {
                                     classes: 'bronedSeat',
                                     category: 'Broned'
-                                }
+                                },
+                                d: {
+                                    classes: 'disabledSeat',
+                                    category: 'Disabled'
+                                },
 
                             },
                             naming: {
@@ -117,7 +126,8 @@
                                 items: [
                                     ['o', 'unavailable', 'Свободно'],
                                     ['t', 'unavailable', 'Занято'],
-                                    ['b', 'unavailable', 'Забронировано']
+                                    ['b', 'unavailable', 'Забронировано'],
+                                    ['d', 'unavailable', 'Недоступно']
                                 ]
                             }
 
@@ -152,7 +162,7 @@
 <div class="section">
     <div class="container">
         <br><br>
-        <h2 class="header">Фильмы</h2>
+        <h2 class="header">Сеансы</h2>
         <br><br>
         <table>
             <thead>
@@ -170,9 +180,9 @@
                     var time = showtime.StartTime.ToString("m", CultureInfo.CreateSpecificCulture("ru-RU")) + " " + showtime.StartTime.ToString("t", CultureInfo.CreateSpecificCulture("ru-RU"));
                     <tr>
                         <td>@showtime.Movie.Title</td>
-                        <td>@showtime.Cinema.Title</td>
+                        <td>@showtime.CinemaHall.Cinema.Title</td>
                         <td>@time</td>
-                        <td><a data-link="@showtime.Link" data-starttime="@time" data-title="@showtime.Movie.Title" data-cinema="@showtime.Cinema.Title" data-showtimeid="@showtime.ShowTimeId" class=" placesButton waves-effect waves-light btn orange">Места</a></td>
+                        <td><a data-link="@showtime.Link" data-starttime="@time" data-title="@showtime.Movie.Title" data-cinema="@showtime.CinemaHall.Cinema.Title" data-showtimeid="@showtime.ShowTimeId" class=" placesButton waves-effect waves-light btn orange">Места</a></td>
                     </tr>
                 }
             </tbody>

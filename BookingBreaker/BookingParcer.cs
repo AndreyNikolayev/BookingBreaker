@@ -30,7 +30,6 @@ namespace BookingBreaker
             timer.AutoReset = true;
             timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
             timer.Start();
-            PlanetaParcingBusinessLogic.ExecuteParcing().ConfigureAwait(false).GetAwaiter().GetResult();
             _logger.Info("Service Started");
         }
 

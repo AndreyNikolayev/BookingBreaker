@@ -9,6 +9,11 @@
 .bronedSeat {
     background-color: #B9DEA0 !important;
 }
+
+.disabledSeat {
+    background-color: #d3d3d3 !important;
+}
+
 div.seatCharts-row{
     height:30px !important;
 }
