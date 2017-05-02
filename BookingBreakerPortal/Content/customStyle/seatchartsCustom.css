@@ -1,0 +1,20 @@
+﻿.openSeat {
+    background-color: #3a78c3 !important;
+}
+
+.takenSeat {
+    background-color: #472B34 !important;
+}
+
+.bronedSeat {
+    background-color: #B9DEA0 !important;
+}
+div.seatCharts-row{
+    height:30px !important;
+}
+
+
+#placesModal {
+    width: 90% !important;
+    max-height: 90% !important
+}

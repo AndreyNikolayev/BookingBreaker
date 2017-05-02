@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BookingBreakerContext.cs" />
+    <Compile Include="EF\EFGenericRepository.cs" />
+    <Compile Include="EF\IGenericRepository.cs" />
+    <Compile Include="EF\BookingBreakerContext.cs" />
     <Compile Include="Cinema.cs" />
     <Compile Include="Migrations\201705010849028_InitialCreate.cs" />
     <Compile Include="Migrations\201705010849028_InitialCreate.Designer.cs">

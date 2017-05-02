@@ -15,6 +15,11 @@ namespace BookingDataAccess
 
         }
 
+        public BookingBreakerContext(bool isLazy) : base("DefaultConnection")
+        {
+            this.Configuration.LazyLoadingEnabled = isLazy;
+        }
+
         public DbSet<Cinema> Cinemas { get; set; }
 
         public DbSet<LocalMovieIdentity> LocalMovieIdentities { get; set; }

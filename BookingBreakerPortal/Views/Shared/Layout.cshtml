@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <!-- CSS  -->
+    <link href="~/Content/css/materialIcons.css" rel="stylesheet">
+    <link href="~/Content/customStyle/commonStyles.css" rel="stylesheet">
+    <link href="~/bower_components/materialize/dist/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <script src="~/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="~/bower_components/materialize/dist/js/materialize.min.js"></script>
+   <!--
+       <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    -->
+</head>
+<body>
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="#" class="brand-logo">Logo</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/Movie/Index">Фильмы</a></li>
+                <li><a href="/Showtime/Index">Сеансы</a></li>
+                <li><a href="#">Кинотеатры</a></li>
+            </ul>
+            <ul id="nav-mobile" class="side-nav">
+                <li><a href="/Movie/Index">Фильмы</a></li>
+                <li><a href="/Showtime/Index">Сеансы</a></li>
+                <li><a href="#">Кинотеатры</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+    @RenderBody()
+    <footer class="page-footer orange">
+        <div class="container">
+            <div class="row">
+                <div class="col l5 s12">
+                    <h5 class="white-text">О нас</h5>
+                    <p class="grey-text text-lighten-4">Мы являемся командой молодых разработчиков, цель которых упростить жизнь людей в мелочах. Сделаем мир удобнее вместе!</p>
+
+                </div>
+                <div class="col l3 s12">
+                    <h5 class="white-text">Карта Сайта</h5>
+                    <ul>
+                        <li><a class="white-text" href="/Home/Index">Главная страница</a></li>
+                        <li><a class="white-text" href="/Movie/Index">Список фильмов</a></li>
+                        <li><a class="white-text" href="/Showtime/Index">Расписание</a></li>
+                        <li><a class="white-text" href="#!">Кинотеатры</a></li>
+                    </ul>
+                </div>
+                <div class="col l4 s12">
+                    <h5 class="white-text">Обратная связь</h5>
+                    <ul>
+                        <li class="white-text">Skype: andrey.nikolayevv</li>
+                        <li class="white-text">Email: andreynikolayevv@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                Made by <a class="orange-text text-lighten-3" href="https://github.com/AndreyNikolayev">Andrey Nikolayev</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

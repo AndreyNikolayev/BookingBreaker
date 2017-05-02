@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingBreakerBusinessLogic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingDataAccess", "BookingEntities\BookingDataAccess.csproj", "{EAABBE24-4192-4D4D-945B-8EC9D38F50C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingBreakerPortal", "BookingBreakerPortal\BookingBreakerPortal.csproj", "{46CC66B5-D095-44ED-8EF5-2337D1BC9C94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingBreakerPortal.Tests", "BookingBreakerPortal.Tests\BookingBreakerPortal.Tests.csproj", "{CE68B30A-60A1-4BE5-8DD2-A396502CDFF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{EAABBE24-4192-4D4D-945B-8EC9D38F50C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAABBE24-4192-4D4D-945B-8EC9D38F50C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAABBE24-4192-4D4D-945B-8EC9D38F50C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46CC66B5-D095-44ED-8EF5-2337D1BC9C94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46CC66B5-D095-44ED-8EF5-2337D1BC9C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46CC66B5-D095-44ED-8EF5-2337D1BC9C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46CC66B5-D095-44ED-8EF5-2337D1BC9C94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE68B30A-60A1-4BE5-8DD2-A396502CDFF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE68B30A-60A1-4BE5-8DD2-A396502CDFF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE68B30A-60A1-4BE5-8DD2-A396502CDFF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE68B30A-60A1-4BE5-8DD2-A396502CDFF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
