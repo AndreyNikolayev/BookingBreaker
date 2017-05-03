@@ -11,7 +11,27 @@
 <script src="~/Scripts/seat-charts/jquery.seat-charts.min.js"></script>
 
 <script language="Javascript">
+
+    function checkShowUpToDate()
+    {
+        $('table#showsTable tbody tr').each(function (index, element) {
+            var lul = $(element).find('a').data('checktime');
+            var kek = $(element).find('a');
+            var azaza = kek.data('checktime');
+            var lil = new Date().getTime();
+            if ($(element).find('a').data('checktime') < new Date().getTime() + 80000)
+            {
+                $(element).addClass('hideMe');
+            }
+        });
+    }
+
     $(document).ready(function () {
+
+        checkShowUpToDate();
+        setInterval(checkShowUpToDate, 60000);
+        $('#showsTable').removeClass('invisible');
+
         $('#placesModal').modal();
         $('.placesButton').click(function () {
             var $this = $(this);
@@ -67,8 +87,6 @@
                             placesObj[index].sort(function (a, b) {
                                 return a.PlaceNumber - b.PlaceNumber;
                             });
-
-                            debugger;
 
                             seatMap[index - 1] = getRowMapRepresentation(placesObj[index]);
 
@@ -164,7 +182,7 @@
         <br><br>
         <h2 class="header">Сеансы</h2>
         <br><br>
-        <table>
+        <table id="showsTable" class="invisible">
             <thead>
                 <tr>
                     <th>Фильм</th>
@@ -182,7 +200,7 @@
                         <td>@showtime.Movie.Title</td>
                         <td>@showtime.CinemaHall.Cinema.Title</td>
                         <td>@time</td>
-                        <td><a data-link="@showtime.Link" data-starttime="@time" data-title="@showtime.Movie.Title" data-cinema="@showtime.CinemaHall.Cinema.Title" data-showtimeid="@showtime.ShowTimeId" class=" placesButton waves-effect waves-light btn orange">Места</a></td>
+                        <td><a data-link="@showtime.Link" data-checktime="@((showtime.StartTime.ToUniversalTime() -  new DateTime(1970, 1, 1)).Ticks /TimeSpan.TicksPerMillisecond)" data-starttime="@time" data-title="@showtime.Movie.Title" data-cinema="@showtime.CinemaHall.Cinema.Title" data-showtimeid="@showtime.ShowTimeId" class=" placesButton waves-effect waves-light btn orange">Места</a></td>
                     </tr>
                 }
             </tbody>
