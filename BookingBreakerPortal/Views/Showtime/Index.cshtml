@@ -15,10 +15,6 @@
     function checkShowUpToDate()
     {
         $('table#showsTable tbody tr').each(function (index, element) {
-            var lul = $(element).find('a').data('checktime');
-            var kek = $(element).find('a');
-            var azaza = kek.data('checktime');
-            var lil = new Date().getTime();
             if ($(element).find('a').data('checktime') < new Date().getTime() + 80000)
             {
                 $(element).addClass('hideMe');
