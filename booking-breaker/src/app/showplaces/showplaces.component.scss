@@ -1,0 +1,39 @@
+.relative{
+    position: relative;
+}
+.seat-div {
+    border-radius: 4px;
+    div {
+        text-align: center;
+        width: 100%;
+        font-weight: bold;
+        margin-top: 25%;
+        font-size: 11px;
+    }
+}
+.absolute {
+    position: absolute;
+}
+
+.open-seat {
+    border: 1px solid #3a78c3 !important;
+}
+.taken-seat {
+    background-image: url('/assets/images/takenSeat.svg')
+}
+.broned-seat {
+    border: 1px solid #B9DEA0 !important;
+}
+.disabled-seat {
+    border: 1px solid #d3d3d3 !important;
+}
+
+.taken-vip {
+    background-image: url('/assets/images/takenVip.svg') !important;
+}
+
+.vip-place {
+    div {
+        margin-top: 100% !important;
+    }
+}

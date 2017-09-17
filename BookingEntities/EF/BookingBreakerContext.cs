@@ -1,4 +1,5 @@
 ﻿using BookingDataAccess;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace BookingDataAccess
 {
-    public class BookingBreakerContext : DbContext
+    public class BookingBreakerContext : IdentityDbContext<ApplicationUser>
     {
+        public static BookingBreakerContext Create()
+        {
+            return new BookingBreakerContext();
+        }
+
         public BookingBreakerContext() : base("DefaultConnection")
         {
 
@@ -32,7 +38,10 @@ namespace BookingDataAccess
 
         public DbSet<ShowTimePlace> ShowTimePlaces { get; set; }
 
+        public DbSet<ShowTimePlaceStyle> ShowTimePlaceStyles { get; set; }
+
         public DbSet<CinemaHall> CinemaHalls { get; set; }
 
+        public DbSet<StartSalesSubscription> StartSalesSubscriptions { get; set; }
     }
 }

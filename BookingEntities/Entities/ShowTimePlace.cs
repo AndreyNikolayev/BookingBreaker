@@ -13,6 +13,11 @@ namespace BookingDataAccess
         [Key]
         public int ShowTimePlaceId { get; set; }
 
+        [ForeignKey("ShowTimePlaceStyle")]
+        public int ShowTimePlaceStyleId { get; set; }
+
+        public ShowTimePlaceStyle ShowTimePlaceStyle { get; set; }
+
         public int Row { get; set; }
 
         public int PlaceNumber { get; set; }
@@ -23,7 +28,5 @@ namespace BookingDataAccess
         public ShowTime ShowTime {get; set;}
 
         public PlaceAccessEnum PlaceAccess { get; set; }
-
-
     }
 }

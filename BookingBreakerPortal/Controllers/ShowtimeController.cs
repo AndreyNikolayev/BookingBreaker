@@ -22,7 +22,7 @@ namespace BookingBreakerPortal.Controllers
 
         public ActionResult GetShowPlacesForShowPlace(int showtimeId)
         {
-            var places = db.ShowTimePlaces.Where(p => p.ShowTimeId == showtimeId).ToList();
+            var places = db.ShowTimePlaces.Where(p => p.ShowTimeId == showtimeId).Include(p => p.ShowTimePlaceStyle).ToList();
 
             return new JsonResult { Data = places, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }

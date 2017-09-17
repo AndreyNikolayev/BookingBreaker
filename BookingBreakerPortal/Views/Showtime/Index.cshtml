@@ -6,11 +6,55 @@
 }
 @model List<BookingDataAccess.ShowTime>
 
-<link href="~/Content/seat-charts/jquery.seat-charts.css" type="text/css" rel="stylesheet" />
+@*<link href="~/Content/seat-charts/jquery.seat-charts.css" type="text/css" rel="stylesheet" />
 <link href="~/Content/customStyle/seatchartsCustom.css" type="text/css" rel="stylesheet" />
 <script src="~/Scripts/seat-charts/jquery.seat-charts.min.js"></script>
+*@
+
+<style>
+    .centeredText {
+        text-align: center;
+        width: 100%;
+        font-weight: bold;
+        margin-top: 25%;
+        font-size: 11px;
+    }
+
+    .takenVip {
+        background-image: url('../../Content/images/TakenVip.svg') !important;
+    }
+    .vipPlaces {
+        margin-top: 100% !important;
+    }
+    .seatDiv {
+        border-radius: 4px;
+    }
+
+    .openSeat {
+        border: 1px solid #3a78c3 !important;
+    }
+
+    .takenSeat {
+        background-image: url('../../Content/images/takenSeat.svg')
+    }
+
+    .bronedSeat {
+        border: 1px solid #B9DEA0 !important;
+    }
+
+    .disabledSeat {
+        border: 1px solid #d3d3d3 !important;
+    }
+</style>
 
 <script language="Javascript">
+
+    var placeAccessToNumber = {
+        0: 'openSeat',
+        1: 'takenSeat',
+        2: 'bronedSeat',
+        3: 'disabledSeat'
+    };
 
     function checkShowUpToDate()
     {
@@ -38,114 +82,29 @@
                         $('#placeModalTitle').text($this.data('title') + ' в ' + $this.data('cinema'));
                         $('#placesLink').attr('href', $this.data('link'));
                         $('#modalTime').text($this.data('starttime'));
-                        var placesObj = {};
-                        for (var i = 0; i < data.length; i++) {
-                            var currentPlace = data[i];
-                            if (placesObj[currentPlace.Row] !== undefined) {
-                                placesObj[currentPlace.Row].push(currentPlace)
-                            }
-                            else {
-                                placesObj[currentPlace.Row] = [currentPlace];
-                            }
-                        }
-                        var index = 1;
-                        var maxLength = 0;
-                        var seatMap = [];
-                        function getRowMapRepresentation(rowArray) {
-                            var result = '';
-                            for (var i = 0; i < rowArray.length; i++) {
-                                var currentArrayMember = rowArray[i];
-                                if (currentArrayMember.PlaceAccess == 0) {
-                                    result += 'o';
-                                }
-                                else if (currentArrayMember.PlaceAccess == 1) {
-                                    result += 't';
-                                }
-                                else if (currentArrayMember.PlaceAccess == 3) {
-                                    result += 'd';
-                                }
-                                else {
-                                    result += 'b';
-                                }
-                            }
 
-                            return result;
-                        }
+                        var resultHtml = '';
 
-                        while (true) {
-                            if (placesObj[index] === undefined) {
-                                break;
-                            }
-                            if (maxLength < placesObj[index].length) {
-                                maxLength = placesObj[index].length;
-                            }
+                        var maxheight = 0;
 
-                            placesObj[index].sort(function (a, b) {
-                                return a.PlaceNumber - b.PlaceNumber;
-                            });
-
-                            seatMap[index - 1] = getRowMapRepresentation(placesObj[index]);
-
-                            index++;
-                        }
-
-                        for (var i = 0; i < seatMap.length; i++) {
-                            if (seatMap[i].length < maxLength) {
-                                seatMap[i] += Array(maxLength + 1 - seatMap[i].length).join('_');
-                            }
-                        }
-
-                        $('.seatCharts-row').remove();
-                        $('.seatCharts-legendItem').remove();
-                        $('#seatMap').unbind().removeData();
-
-                        if (maxLength > 20)
+                        for (var i = 0; i < data.length; i++)
                         {
-                            $('#seatMap').removeClass('l8').addClass('l12');
-                        }
-                        else
-                        {
-                            $('#seatMap').removeClass('l12').addClass('l8');
-                        }
-
-                        $('#seatMap').seatCharts({
-                            map: seatMap,
-                            seats: {
-                                o: {
-                                    classes: 'openSeat',
-                                    category: 'Open'
-                                },
-                                t: {
-                                    classes: 'takenSeat',
-                                    category: 'Taken'
-                                },
-                                b: {
-                                    classes: 'bronedSeat',
-                                    category: 'Broned'
-                                },
-                                d: {
-                                    classes: 'disabledSeat',
-                                    category: 'Disabled'
-                                },
-
-                            },
-                            naming: {
-                                top: false,
-                                getLabel: function (character, row, column) {
-                                    return column;
-                                },
-                            },
-                            legend: {
-                                node: $('#legendCharts'),
-                                items: [
-                                    ['o', 'unavailable', 'Свободно'],
-                                    ['t', 'unavailable', 'Занято'],
-                                    ['b', 'unavailable', 'Забронировано'],
-                                    ['d', 'unavailable', 'Недоступно']
-                                ]
+                            if (maxheight < data[i].ShowTimePlaceStyle.Top + data[i].ShowTimePlaceStyle.Height)
+                            {
+                                maxheight = data[i].ShowTimePlaceStyle.Top + data[i].ShowTimePlaceStyle.Height;
                             }
+                            var topStyle =  'top: ' + data[i].ShowTimePlaceStyle.Top + 'px;';
+                            var leftStyle = 'left: '+ data[i].ShowTimePlaceStyle.Left + 'px;';
+                            var widthStyle = 'width: ' +  data[i].ShowTimePlaceStyle.Width + 'px;';
+                            var heightStyle = 'height: ' + data[i].ShowTimePlaceStyle.Height + 'px;';
 
-                        });
+                            resultHtml += '<div class="seatDiv ' + placeAccessToNumber[data[i].PlaceAccess] + (data[i].ShowTimePlaceStyle.Height > 50 && data[i].PlaceAccess == 1 ? ' takenVip ' : '') + '" style="position:absolute;' + topStyle + leftStyle + widthStyle + heightStyle + '">' + (data[i].PlaceAccess == 1 ? '' : '<div class="centeredText ' + (data[i].ShowTimePlaceStyle.Height > 50 ? 'vipPlaces' : '') + '">' + data[i].PlaceNumber + '</div>') + '</div>';
+                        }
+
+                        $('#seatMap').html(resultHtml);
+
+                        $('#seatMap').css('min-height', maxheight + 10 + 'px');
+                       
                         $('#placesModal').modal('open');
                     }
                     else {
@@ -205,18 +164,11 @@
     </div>
 </div>
 
-<div id="placesModal" class="modal">
-    <div class="modal-content">
+<div id="placesModal" class="modal modal-fixed-footer">
+    <div id="placesContent" class="modal-content">
         <h4 id="placeModalTitle" class="centerText">Film Title</h4>
         <p id="modalTime" class="centerText"></p>
-        <div class="row">
-            <div id="seatMap" class="col l8 s12">
-
-            </div>
-
-            <div id="legendCharts" class="col l4 s12">
-            </div>
-        </div>
+        <div id="seatMap" style="position:relative;"></div>
     </div>
     <div class="modal-footer">
         <a id="placesLink" target="_blank" href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Купить билеты можно здесь</a>

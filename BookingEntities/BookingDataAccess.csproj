@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BookingDataAccess</RootNamespace>
     <AssemblyName>BookingDataAccess</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,6 +37,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -50,8 +57,11 @@
     <Compile Include="EF\EFGenericRepository.cs" />
     <Compile Include="EF\IGenericRepository.cs" />
     <Compile Include="EF\BookingBreakerContext.cs" />
+    <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\StartSalesSubscription.cs" />
     <Compile Include="Entities\CinemaHall.cs" />
     <Compile Include="Entities\Cinema.cs" />
+    <Compile Include="Entities\ShowTimePlaceStyle.cs" />
     <Compile Include="Enums\HorizontalHallLayoutEnum.cs" />
     <Compile Include="Enums\VerticalHallLayoutEnum.cs" />
     <Compile Include="Enums\PlacesRepresentationTechEnum.cs" />
@@ -72,6 +82,22 @@
     <Compile Include="Migrations\201705022227247_EnumChange.Designer.cs">
       <DependentUpon>201705022227247_EnumChange.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705041839266_Places Style.cs" />
+    <Compile Include="Migrations\201705041839266_Places Style.Designer.cs">
+      <DependentUpon>201705041839266_Places Style.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709150606147_placestyle.cs" />
+    <Compile Include="Migrations\201709150606147_placestyle.Designer.cs">
+      <DependentUpon>201709150606147_placestyle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709171119051_StartSubscription.cs" />
+    <Compile Include="Migrations\201709171119051_StartSubscription.Designer.cs">
+      <DependentUpon>201709171119051_StartSubscription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709171253469_isSentSub.cs" />
+    <Compile Include="Migrations\201709171253469_isSentSub.Designer.cs">
+      <DependentUpon>201709171253469_isSentSub.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Enums\PlaceAccessEnum.cs" />
     <Compile Include="Entities\LocalMovieIdentity.cs" />
@@ -82,7 +108,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +125,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705022227247_EnumChange.resx">
       <DependentUpon>201705022227247_EnumChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705041839266_Places Style.resx">
+      <DependentUpon>201705041839266_Places Style.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709150606147_placestyle.resx">
+      <DependentUpon>201709150606147_placestyle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709171119051_StartSubscription.resx">
+      <DependentUpon>201709171119051_StartSubscription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709171253469_isSentSub.resx">
+      <DependentUpon>201709171253469_isSentSub.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

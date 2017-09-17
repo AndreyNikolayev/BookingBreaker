@@ -1,0 +1,22 @@
+<div *ngIf="showplaces && showtime" class="section">
+    <div class="container">
+        <br><br>
+        <h4 class="header center">{{showtime.Movie.Title}} в {{showtime.CinemaHall.Cinema.Title}}</h4>
+        <h5 class="center">{{showtime.StartTime | dateformat}}</h5>
+        <br><br>
+        <div class="relative" [style.min-height] = "relativeDivMinHeightPixel">
+            <div *ngFor="let showplace of showplaces"
+            class="seat-div absolute"
+            appShowtimePlaceStyle
+            [showplace]="showplace"
+            >
+                <div *ngIf="showplace.PlaceAccess != 1"
+                     class="centered-text"
+                     >
+                    {{showplace.PlaceNumber}}
+                </div>
+            </div>
+        </div>
+        <br><br>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div *ngIf="showtimes" class="section">
+        <div class="container">
+            <br><br>
+            <h2 class="header">Сеансы</h2>
+            <br><br>
+            <table id="showsTable" class="invisible">
+                <thead>
+                    <tr>
+                        <th>Фильм</th>
+                        <th>Кинотеатр</th>
+                        <th>Начало сеанса</th>
+                        <th></th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                        <tr *ngFor="let showtime of showtimes">
+                                <td>{{showtime.Movie.Title}}</td>
+                                <td>{{showtime.CinemaHall.Cinema.Title}}</td>
+                                <td>{{showtime.StartTime | dateformat}}</td>
+                                <td><a (click)="openPlaces(showtime.ShowTimeId)" class=" placesButton waves-effect waves-light btn orange">Места</a></td>
+                        </tr>
+                </tbody>
+            </table>
+            <br><br>
+        </div>
+    </div>
