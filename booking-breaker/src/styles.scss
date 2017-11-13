@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+.modal-footer {
+    display: none !important;
+}
+
+menu, ol, ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}

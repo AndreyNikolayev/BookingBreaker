@@ -1,0 +1,29 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmitRegister()" novalidate>
+    <div class="row">
+      <mz-input-container class="col s12">
+        <input mz-input mz-validation required
+        id="register-email"
+        formControlName="email"
+        type="email"
+        [errorMessageResource]="errorMessageResources.email"
+        [label]="'Email'"/>
+      </mz-input-container>
+      <mz-input-container class="col s12">
+        <input mz-input mz-validation required
+        id="register-username"
+        formControlName="username"
+        type="text"
+        [errorMessageResource]="errorMessageResources.username"
+        [label]="'Имя пользователя'"/>
+      </mz-input-container>
+      <mz-input-container class="col s12">
+          <input mz-input mz-validation required
+          id="register-password"
+          formControlName="password"
+          type="password"
+          [errorMessageResource]="errorMessageResources.password"
+          [label]="'Пароль'"/>
+        </mz-input-container>
+    </div>
+    <button mz-button class="waves-effect waves-light orange fullwidth" [disabled]="!registerForm.valid" type="submit">Зарегистрироваться</button>
+  </form>

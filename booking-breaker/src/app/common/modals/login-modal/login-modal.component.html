@@ -1,0 +1,21 @@
+<mz-modal id="modalComponent" #modalComponent>
+    <mz-modal-header>
+     <h4 class="center">Booking Breaker</h4>
+    </mz-modal-header>
+    <mz-modal-content>
+      <div class="form-container">
+          <div
+          *ngIf="!showLoginForm"
+         >
+             <app-register-form></app-register-form>
+             <p class="center"><a (click)="goToLogin()" class="pointer switch-link">Вернуться на логин</a></p>
+         </div>
+          <div
+           *ngIf="showLoginForm"
+          >
+              <app-login-form></app-login-form>
+              <p class="center">Нет аккаунта? <a (click)="goToRegister()" class="pointer switch-link">Зарегистрироваться</a></p>
+          </div>
+      </div>
+    </mz-modal-content>
+  </mz-modal>

@@ -4,6 +4,7 @@ import { environment } from './../../../../environments/environment';
 
 import 'rxjs/add/operator/toPromise';
 import { Showtime } from './../../models/showtime';
+import {ShowtimeView} from './../../view-models/showtime-view';
 
 @Injectable()
 export class ShowtimeService {
@@ -11,11 +12,11 @@ export class ShowtimeService {
 
     constructor(private http: Http) { }
 
-    getShowtimes(): Promise<Showtime[]> {
+    getShowtimes(): Promise<ShowtimeView[]> {
         return this.http.get(this.showtimesUrl)
         .toPromise()
         .then(
-            response => response.json() as Showtime[]
+            response => response.json() as ShowtimeView[]
     )
         .catch(this.handleError);
     }
@@ -24,7 +25,7 @@ export class ShowtimeService {
         return this.http.get(this.showtimesUrl + '/' + id)
         .toPromise()
         .then(
-            response => response.json() as Showtime[]
+            response => response.json() as Showtime
     )
         .catch(this.handleError);
     }

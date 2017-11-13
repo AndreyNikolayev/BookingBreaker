@@ -22,7 +22,7 @@ namespace BookingBreakerApi.Controllers
                 .Include(p => p.Movie)
                 .Include(p => p.CinemaHall)
                 .Include(p => p.CinemaHall.Cinema)
-                .OrderBy(p => p.StartTime).FirstOrDefault();
+                .FirstOrDefault();
 
             showtime.CinemaHall.Cinema.CinemaHalls = null;
             showtime.Movie.Showtimes = null;
@@ -32,19 +32,37 @@ namespace BookingBreakerApi.Controllers
 
         public IHttpActionResult Get()
         {
-            var showtimes = db.ShowTimes
-                .Where(p => p.StartTime > DateTime.Now)
+            var currentDate = DateTime.Now.Date;
+            var nextDate = DateTime.Now.AddDays(1).Date;
+            var cinemaWithshowtimes = db.ShowTimes
+                .Where(p => p.StartTime > currentDate && p.StartTime < nextDate)
                 .Include(p => p.Movie)
                 .Include(p => p.CinemaHall)
                 .Include(p => p.CinemaHall.Cinema)
-                .OrderBy(p => p.StartTime).ToList();
+                .OrderBy(p => p.StartTime)
+                .ToList()
+                .GroupBy(p => p.CinemaHall.Cinema)
+                .Select(p => new
+                {
+                    Cinema = p.Key,
+                    Movies = p.GroupBy(s => s.Movie)
+                    .Select(s => s.Key).ToList()
+                })
+                .ToList();
 
-            showtimes.ForEach(p => {
-                p.CinemaHall.Cinema.CinemaHalls = null;
-                p.Movie.Showtimes = null;
+            cinemaWithshowtimes.ForEach(p =>
+            {
+                p.Cinema.CinemaHalls = null;
+                p.Movies.ForEach(m =>
+                {
+                    foreach(var s in m.Showtimes)
+                    {
+                        s.Movie = null;
+                    }
+                });
             });
 
-            return Json(showtimes);
+            return Json(cinemaWithshowtimes);
         }
     }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 
 import { Showtime } from './../API/models/showtime';
+import {ShowtimeView} from './../API/view-models/showtime-view';
 import { ShowtimeService } from './../API/services//showtime/showtime.service';
 
 @Component({
@@ -13,16 +14,21 @@ import { ShowtimeService } from './../API/services//showtime/showtime.service';
 
   export class ShowTimesComponent implements OnInit {
 
-    showtimes: Showtime[];
+    showtimeViews: ShowtimeView[];
 
     constructor(
       private showtimeService: ShowtimeService,
       private router: Router
     ) {}
 
+    isActive(showtime: Showtime): boolean {
+        return new Date(showtime.StartTime).getTime() > new Date().getTime();
+    }
+
     getShowtimes(): void {
         this.showtimeService.getShowtimes()
-        .then(showtimes => this.showtimes = showtimes);
+        .then(showtimeViews => this.showtimeViews = showtimeViews)
+        .then(response => console.log(this.showtimeViews[0].Movies[0]));
     }
 
     ngOnInit() {

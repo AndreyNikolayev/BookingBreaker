@@ -29,7 +29,8 @@ export class DateFormatPipe implements PipeTransform {
             const date = value.split('T');
             const times = date[1].split(':');
             const dates = date[0].split('-');
-            return dates[2] + ' ' + DateFormatPipe.MONTHS[dates[1]] + ' ' + times[0] + ':' + times[1];
+            // return dates[2] + ' ' + DateFormatPipe.MONTHS[dates[1]] + ' ' + times[0] + ':' + times[1];
+            return times[0] + ':' + times[1];
         }catch (ex) {
            return value;
         }

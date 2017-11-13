@@ -38,7 +38,10 @@ namespace BookingBreakerApi.Providers
             if(user == null)
             {
                 user = await userManager.FindByEmailAsync(context.UserName);
-                user = await userManager.FindAsync(user.UserName, context.Password);
+                if (user != null)
+                {
+                    user = await userManager.FindAsync(user.UserName, context.Password);
+                }
             }
 
             if (user == null)

@@ -216,9 +216,7 @@ namespace BookingBreakerBusinessLogic
                         showPlaces.ForEach(p => p.ShowTime = showtimeEntity);
 
                         db.ShowTimes.Add(showtimeEntity);
-                        db.SaveChanges();
                     };
-
                     db.SaveChanges();
                 }
             }

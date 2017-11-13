@@ -14,9 +14,7 @@ namespace BookingBreaker
 {
     public partial class BookingParcer : ServiceBase
     {
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
-
-       // private static Logger _logger = LogManager.GetLogger("BookingBreakerService");
+        private static Logger _logger = LogManager.GetLogger("BookingBreaker");
 
         public BookingParcer()
         {
@@ -25,25 +23,19 @@ namespace BookingBreaker
 
         protected override void OnStart(string[] args)
         {
-            //_logger.Info("Service Starting");
-            //// Set up a timer to trigger every minute.  
-            //System.Timers.Timer showTimeTimer = new System.Timers.Timer();
-            //showTimeTimer.Interval = 1800000; // 30min
-            //showTimeTimer.AutoReset = true;
-            //showTimeTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnShowTimeTimer);
-            //showTimeTimer.Start();
+            _logger.Info("Service Starting");
 
-            //System.Timers.Timer movieTimer = new System.Timers.Timer();
-            //movieTimer.Interval = 648000000.0; // 1 month
-            //movieTimer.AutoReset = true;
-            //movieTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnMovieTimer);
-            //movieTimer.Start();
+            System.Timers.Timer showTimeTimer = new System.Timers.Timer();
+            showTimeTimer.Interval = 1800000; // 30min
+            showTimeTimer.AutoReset = true;
+            showTimeTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnShowTimeTimer);
+            showTimeTimer.Start();
 
-            System.Timers.Timer subscriptionTimer = new System.Timers.Timer();
-            subscriptionTimer.Interval = 300000; // 1 month
-            subscriptionTimer.AutoReset = true;
-            subscriptionTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnSubscriptionTimer);
-            subscriptionTimer.Start();
+            System.Timers.Timer movieTimer = new System.Timers.Timer();
+            movieTimer.Interval = 1800000; // 1 month
+            movieTimer.AutoReset = true;
+            movieTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnMovieTimer);
+            movieTimer.Start();
 
             _logger.Info("Service Started");
         }
@@ -66,12 +58,9 @@ namespace BookingBreaker
             _logger.Info("Service Start showtimes parcing");
             PlanetaParcingBusinessLogic.ExecuteShowTimesParcing().ConfigureAwait(false).GetAwaiter().GetResult();
             _logger.Info("Service Stop Showtimes parcing");
-        }
 
-        public void OnSubscriptionTimer(object sender, System.Timers.ElapsedEventArgs args)
-        {
             _logger.Info("Service Start subscriptions sending");
-             SubscriptionBusinessLogic.CheckStartSubscriptionsSend();
+            SubscriptionBusinessLogic.CheckStartSubscriptionsSend();
             _logger.Info("Service Stop subscriptions sending");
         }
     }

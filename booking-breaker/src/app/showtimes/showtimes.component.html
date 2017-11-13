@@ -1,27 +1,24 @@
-<div *ngIf="showtimes" class="section">
+<div class="section">
         <div class="container">
-            <br><br>
-            <h2 class="header">Сеансы</h2>
-            <br><br>
-            <table id="showsTable" class="invisible">
-                <thead>
-                    <tr>
-                        <th>Фильм</th>
-                        <th>Кинотеатр</th>
-                        <th>Начало сеанса</th>
-                        <th></th>
-                    </tr>
-                </thead>
-    
-                <tbody>
-                        <tr *ngFor="let showtime of showtimes">
-                                <td>{{showtime.Movie.Title}}</td>
-                                <td>{{showtime.CinemaHall.Cinema.Title}}</td>
-                                <td>{{showtime.StartTime | dateformat}}</td>
-                                <td><a (click)="openPlaces(showtime.ShowTimeId)" class=" placesButton waves-effect waves-light btn orange">Места</a></td>
-                        </tr>
-                </tbody>
-            </table>
-            <br><br>
+            <ul *ngIf="showtimeViews">
+                <li *ngFor="let showview of showtimeViews">
+                    <div class="theater-header light-blue">
+                            {{showview.Cinema.Title}}
+                    </div>
+                    <ul class="movies-container">
+                        <li class="movie-container" *ngFor="let movie of showview.Movies">
+                            <div class="grey poster-container"></div>
+                            <div class="movie-details">
+                                <h3 class="movie-title">{{movie.Title}}</h3>
+                            </div>
+                            <ul class="showtime-container">
+                                <li class="showtime-item-container" *ngFor="let showtime of movie.Showtimes">
+                                    <a (click)="openPlaces(showtime.ShowTimeId)" class="placesButton waves-effect waves-light btn orange">{{showtime.StartTime | dateformat}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>

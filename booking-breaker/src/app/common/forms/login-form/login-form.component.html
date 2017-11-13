@@ -1,0 +1,21 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()" novalidate>
+        <div class="row">
+          <mz-input-container class="col s12">
+            <input mz-input mz-validation required
+            id="login-email"
+            formControlName="email"
+            type="email"
+            [errorMessageResource]="errorMessageResources.email"
+            [label]="'Email / Имя пользователя'"/>
+          </mz-input-container>
+          <mz-input-container class="col s12">
+              <input mz-input mz-validation required
+              id="login-password"
+              formControlName="password"
+              type="password"
+              [errorMessageResource]="errorMessageResources.password"
+              [label]="'Пароль'"/>
+            </mz-input-container>
+        </div>
+        <button mz-button class="waves-effect waves-light orange fullwidth" [disabled]="!loginForm.valid" type="submit">Войти</button>
+      </form>

@@ -25,6 +25,7 @@ import 'rxjs/add/operator/switchMap';
     showtime: Showtime;
 
     relativeDivMinHeightPixel: string;
+    relativeDivWidthPixel: string;
 
     constructor(
       private showtimeService: ShowtimeService,
@@ -44,9 +45,20 @@ import 'rxjs/add/operator/switchMap';
         .switchMap((params: ParamMap) =>
        this.showplaceService.getShowplaces(+params.get('showtimeid')))
        .subscribe(showplaces => {
-         this.showplaces = showplaces;
-         this.relativeDivMinHeightPixel = Math.max.apply(null, this.showplaces.map((showplace, index, array) =>
+         const minTop = Math.min.apply(null, showplaces.map((showplace, index, array) =>
+         showplace.ShowTimePlaceStyle.Top));
+         const minLeft = Math.min.apply(null, showplaces.map((showplace, index, array) =>
+         showplace.ShowTimePlaceStyle.Left));
+         showplaces.forEach((showplace, index, array) => {
+            showplace.ShowTimePlaceStyle.Top -= minTop;
+            showplace.ShowTimePlaceStyle.Left -= minLeft;
+         });
+
+         this.relativeDivMinHeightPixel = Math.max.apply(null, showplaces.map((showplace, index, array) =>
             showplace.ShowTimePlaceStyle.Top + showplace.ShowTimePlaceStyle.Height + 10)) + 'px';
+            this.relativeDivWidthPixel = Math.max.apply(null, showplaces.map((showplace, index, array) =>
+            showplace.ShowTimePlaceStyle.Left + showplace.ShowTimePlaceStyle.Width)) + 'px';
+            this.showplaces = showplaces;
         });
     }
 
